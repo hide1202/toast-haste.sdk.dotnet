@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HasteClientLib", "HasteClientLib\HasteClientLib.csproj", "{486AE091-8784-4D9B-AE6C-3F0D12E43A92}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{2EC55C1F-FE3D-468A-B553-C746F209C6CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haste.EchoClient", "Examples\Haste.EchoClient\Haste.EchoClient.csproj", "{C133C47B-3452-40A4-A13A-E84D70731F44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HasteClientLib.Benchmark", "HasteClientLib.Benchmark\HasteClientLib.Benchmark.csproj", "{2B2B968A-7042-4250-BC50-19744F609B84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{C133C47B-3452-40A4-A13A-E84D70731F44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C133C47B-3452-40A4-A13A-E84D70731F44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C133C47B-3452-40A4-A13A-E84D70731F44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B2B968A-7042-4250-BC50-19744F609B84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B2B968A-7042-4250-BC50-19744F609B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B2B968A-7042-4250-BC50-19744F609B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B2B968A-7042-4250-BC50-19744F609B84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
