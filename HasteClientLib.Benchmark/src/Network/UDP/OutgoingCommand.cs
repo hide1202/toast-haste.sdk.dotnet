@@ -179,7 +179,10 @@ namespace Haste.Network
                 _buffer.WriteBytes(Payload);
 
             _serializedBuffer = _buffer.ToArray();
+
             _buffer.Release();
+            Payload.Release();
+
             return _serializedBuffer;
         }
 

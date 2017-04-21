@@ -416,6 +416,8 @@ namespace Haste.Network
                 }
             }
 
+            buffer.Release();
+
             if (_allowStatistics)
             {
                 _statistics.ReceiveBytes(bufferCount, currentTime);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 
 namespace Haste.ByteBuffer
 {
@@ -28,11 +29,12 @@ namespace Haste.ByteBuffer
     public class ByteArrayPool
     {
         private const int InitialPoolSize = 1024;
-
+        private readonly int _byteArrayLength;
         private ConcurrentStack<ByteBuffer> _pool;
 
         internal ByteArrayPool(int byteArrayLength)
         {
+            _byteArrayLength = byteArrayLength;
             _pool = new ConcurrentStack<ByteBuffer>();
 
             for (int i = 0; i < InitialPoolSize; i++)
@@ -44,7 +46,10 @@ namespace Haste.ByteBuffer
         internal ByteBuffer Rent()
         {
             ByteBuffer buffer;
-            return _pool.TryPop(out buffer) ? buffer : null;
+            if (!_pool.TryPop(out buffer))
+                buffer = new ByteBuffer(this, _byteArrayLength);
+
+            return buffer;
         }
 
         internal void Release(ByteBuffer target)
