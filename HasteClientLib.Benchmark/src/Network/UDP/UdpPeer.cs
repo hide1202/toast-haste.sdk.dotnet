@@ -295,6 +295,8 @@ namespace Haste.Network
 
                 EnqueueOutgoingCommand(new OutgoingCommand(CommandType.Disconnect, (byte)(ChannelCount - 1), buffer.ToArray()));
                 FlushSendQueues();
+
+                buffer.Release();
             }
 
             _udpSocket.Dispose();

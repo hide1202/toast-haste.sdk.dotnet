@@ -24,6 +24,7 @@ namespace Haste.Network
     {
         private short _headerLength;
         private IByteBuffer _buffer;
+        private byte[] _serializedBuffer;
         private bool _disposed = false;
 
         internal OutgoingCommand(CommandType commandType, byte channel)
@@ -147,8 +148,8 @@ namespace Haste.Network
 
         private byte[] Serialize()
         {
-            if (_buffer != null)
-                return _buffer.ToArray();
+            if (_serializedBuffer != null)
+                return _serializedBuffer;
 
             _buffer = ByteBufferFactory.NewBuffer();
 
@@ -177,7 +178,9 @@ namespace Haste.Network
             if (Payload.Count > 0)
                 _buffer.WriteBytes(Payload);
 
-            return _buffer.ToArray();
+            _serializedBuffer = _buffer.ToArray();
+            _buffer.Release();
+            return _serializedBuffer;
         }
 
         /// <summary>

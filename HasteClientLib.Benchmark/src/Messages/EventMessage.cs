@@ -48,6 +48,8 @@ namespace Haste.Messages
             {
                 _bytes = buffer.ToArray();
             }
+
+            buffer.Release();
         }
 
         public byte[] GetBytes()

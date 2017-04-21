@@ -123,6 +123,8 @@ namespace Haste.Network
             
             SentCount ++;
 
+            buffer.Release();
+
             return bytes;
         }
     }

@@ -105,7 +105,9 @@ namespace Haste.Network
             payload.WriteLong(command.ReliableSequenceNumber);
             payload.WriteLong(command.ServerSentTime);
 
-            return new OutgoingCommand(CommandType.Acknowledge, command.Channel, payload.ToArray());
+            var outgoingCommand = new OutgoingCommand(CommandType.Acknowledge, command.Channel, payload.ToArray());
+            payload.Release();
+            return outgoingCommand;
         }
 
         public static void Erase(this List<OutgoingCommand> commands, OutgoingCommand command)

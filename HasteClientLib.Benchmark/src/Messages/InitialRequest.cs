@@ -53,6 +53,8 @@ namespace Haste.Messages
                 buffer.WriteBytes(customData, 0, customDataLength);
 
             _bytes = buffer.ToArray();
+
+            buffer.Release();
         }
 
         public byte[] GetBytes()

@@ -29,7 +29,9 @@ namespace Haste.Data
         public static DataObject ToDataObject(this byte[] binary)
         {
             IByteBuffer buffer = ByteBufferFactory.NewBuffer(binary);
-            return buffer.ToDataObject();
+            var dataObject = buffer.ToDataObject();
+            buffer.Release();
+            return dataObject;
         }
 
         public static DataObject ToDataObject(this IByteBuffer buffer)

@@ -18,7 +18,7 @@ using System.Text;
 
 namespace Haste.ByteBuffer
 {
-    public interface IByteBuffer
+    public interface IByteBuffer : IHandle
     {
         int ReadIndex { get; set; }
         int WriteIndex { get; set; }

@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\ByteBuffer\ByteArrayPool.cs" />
     <Compile Include="src\ByteBuffer\ByteBufferAllocator.cs" />
     <Compile Include="src\ByteBuffer\ByteBufferBase.cs" />
     <Compile Include="src\ByteBuffer\ByteBufferUtil.cs" />
