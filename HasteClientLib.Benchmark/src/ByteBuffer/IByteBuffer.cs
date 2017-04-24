@@ -15,6 +15,7 @@
 */
 
 using System.Text;
+using Haste.Pool;
 
 namespace Haste.ByteBuffer
 {
