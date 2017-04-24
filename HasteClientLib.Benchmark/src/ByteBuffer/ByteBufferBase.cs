@@ -21,13 +21,13 @@ namespace Haste.ByteBuffer
 {
     public abstract class ByteBufferBase : IByteBuffer
     {
-        static ByteArrayPool Pool = new ByteArrayPool(DEFAULT_CAPACITY);
+        static Pool<ByteArray> Pool = new Pool<ByteArray>(ByteArray.Creator(DEFAULT_CAPACITY), 1024);
 
         internal const int DEFAULT_CAPACITY = 1500;
         protected int _writeIndex = 0;
         protected int _readIndex = 0;
         protected byte[] _data;
-        private ByteBuffer _buffer;
+        private ByteArray _buffer;
         
         public int ReadIndex { get { return _readIndex; } set { _readIndex = value; } }
 
@@ -42,7 +42,7 @@ namespace Haste.ByteBuffer
         protected ByteBufferBase(int capacity)
         {
             _buffer = Pool.Rent();
-            _data = _buffer.ByteArray;
+            _data = _buffer.Array;
         }
 
         #region Protected abstract methods

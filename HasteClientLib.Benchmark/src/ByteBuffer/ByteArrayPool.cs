@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Haste.ByteBuffer
 {
@@ -8,17 +9,22 @@ namespace Haste.ByteBuffer
         void Release();
     }
 
-    public class ByteBuffer : IHandle
+    public class ByteArray : IHandle
     {
-        private readonly ByteArrayPool _pool;
+        private readonly Pool<ByteArray> _pool;
 
-        internal ByteBuffer(ByteArrayPool pool, int byteArrayLength)
+        internal ByteArray(Pool<ByteArray> pool, int byteArrayLength)
         {
             _pool = pool;
-            ByteArray = new byte[byteArrayLength];
+            Array = new byte[byteArrayLength];
         }
 
-        internal byte[] ByteArray { get; }
+        public static Func<Pool<ByteArray>, ByteArray> Creator(int byteArrayLength)
+        {
+            return pool => new ByteArray(pool, byteArrayLength);
+        }
+
+        internal byte[] Array { get; }
 
         public void Release()
         {
@@ -26,33 +32,37 @@ namespace Haste.ByteBuffer
         }
     }
 
-    public class ByteArrayPool
+    public class Pool<T> where T : class
     {
-        private const int InitialPoolSize = 1024;
-        private readonly int _byteArrayLength;
-        private ConcurrentStack<ByteBuffer> _pool;
+        private readonly Func<Pool<T>, T> _creator;
+        private readonly ConcurrentStack<T> _pool;
 
-        internal ByteArrayPool(int byteArrayLength)
+        internal Pool(Func<Pool<T>, T> creator, int preCreateSize)
         {
-            _byteArrayLength = byteArrayLength;
-            _pool = new ConcurrentStack<ByteBuffer>();
+            _creator = creator;
+            _pool = new ConcurrentStack<T>();
 
-            for (int i = 0; i < InitialPoolSize; i++)
+            for (int i = 0; i < preCreateSize; i++)
             {
-                _pool.Push(new ByteBuffer(this, byteArrayLength));
+                _pool.Push(_creator(this));
             }
         }
 
-        internal ByteBuffer Rent()
+        internal T Rent()
         {
-            ByteBuffer buffer;
-            if (!_pool.TryPop(out buffer))
-                buffer = new ByteBuffer(this, _byteArrayLength);
+            T buffer = null;
+            var wait = new SpinWait();
+            for (int i = 0; i < 3; i++)
+            {
+                if (_pool.TryPop(out buffer))
+                    break;
+                wait.SpinOnce();
+            }
 
-            return buffer;
+            return buffer ?? _creator(this);
         }
 
-        internal void Release(ByteBuffer target)
+        internal void Release(T target)
         {
             _pool.Push(target);
         }
